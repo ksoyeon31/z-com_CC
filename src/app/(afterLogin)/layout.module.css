@@ -1,0 +1,29 @@
+.container{
+    display: flex;
+    align-items: stretch;
+    background-color: #fff;
+}
+
+.leftSectionWrapper{
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    flex-grow: 1; // 왼쪽 오른쪽 비율이 달라도 양쪽 끝에 똑같은 비율로 너비를 주는방법
+}
+
+.leftSection{
+    width: 275px;
+    padding: 0.8px;
+    height: 100dwh;
+}
+.rightSectionWrapper{
+    display: flex;
+    alignp-items: flex-start;
+    height: 100dvh;
+    flex-direction: colmn;
+
+}
+
+.rightSection{
+     
+}
