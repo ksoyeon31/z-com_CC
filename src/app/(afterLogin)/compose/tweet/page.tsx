@@ -1,10 +1,8 @@
-import Image from "next/image";
-import styles from "./page.module.css";
 
 export default function Tweet() {
   return (
     <div>
-      
+      트윗페이지
     </div>
   );
 }
