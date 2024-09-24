@@ -1,8 +1,7 @@
+import Home from "../../home/page";
 
-export default function Tweet() {
+export default function Page() {
   return (
-    <div>
-      트윗페이지
-    </div>
+    <Home />
   );
 }

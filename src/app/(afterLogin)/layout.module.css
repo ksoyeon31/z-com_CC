@@ -18,7 +18,6 @@
 }
 
 .leftSectionFixed{
-    background-color: orange;
     position: fixed;
     width: inherit;
     /* inherit 부모의 것을 그대로 상속받는 것. =275px와 같다고 볼 수 있음 */
@@ -84,7 +83,6 @@
 }
 
 .rightSectionInner{
-    background-color: aqua;
     height: 100%;
     width: 990px;
     display: flex;
@@ -93,37 +91,21 @@
 
 .main{
     width: 600px;
-    background-color: yellow;
 }
 
 .rightSection{
-    background-color: blue;
     width: 350px;
     height: 100%     
 }
 
-.search{
-    position: fixed;
-    height: 42px;
-    width: inherit;
-    border-radius: 21px;
-    background-color: rgb(230, 243, 244);
-    margin-top: 6px;
-    margin-botton: 12px;
-    display: flex;
-    align-items: center;
+.followRecommend {
+    font-size: 20px;
+    font-weight: bold;
+    background-color: rgb(247, 249, 249);
+    border-radius: 16px;
+    margin: 12px 0;
+    padding: 12px 16px;
 }
-
-.search svg{
-    margin-left: 20px;
-    fill: rgb(83, 100, 113);
-}
-
-.search input{
-    outline: none;
-    background-color: inherit;
-    border: none;
-    padding: 12px;
-    margin-left: 5px;
-    font-size: 15px;
+.followRecommend h3 {
+    padding-bottom: 12px;
 }
