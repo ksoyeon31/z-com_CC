@@ -6,14 +6,19 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import ActionButtons from './ActionButtons';
 import PostArticle from './PostArticle';
+import {faker} from '@faker-js/faker'; //더미데이터 쉽게 넣어주는 라이브러리
+//중괄호 없이 import 하는 것은 모듈이나 라이브러리 전체를 가져오는 것이고, 중괄호 안에 특정 객체 또는 함수를 명시하여 import 하는 것은 해당 객체나 함수만을 가져오는 것
+//export 할 때 그냥 export는 이름이 고정되어있기 때문에 중괄호{}로 감싸서 import하고, export default는 중괄호 없이 import 가능
+
 // 한글 플러그인
-
-
-
 dayjs.locale('ko');
 dayjs.extend(relativeTime);
 
-export default function Post() {
+type Props = {
+    noImage?: boolean;
+}
+
+export default function Post({noImage}: Props) {
 
     const target = {
         postId: 1,
@@ -24,9 +29,11 @@ export default function Post() {
         },
         content: '안녕하세요 elonmusk입니다.',
         createAt: new Date(),
-        Images: [],
+        Images: [] as any[],
     }
-
+    if(Math.random() > 0.5 && !noImage){ // 반반 확률로 이미지를 랜덤으로 렌더링함(이때 반반 확률은 이미지가 계정에 이미지가 있을수도, 없을 수도 있는 것을 의미)
+        target.Images.push({ imageId: 1, link: faker.image.urlLoremFlickr() }) //urlLoremFlickr()은 매번 랜덤한 이미지 보여주는 기능을 함
+    }
     return (
         <PostArticle post={target}>
             {/* 부모컴포넌트(postarticle)이 클라이언트 컴포넌트이고 자식 컴포넌트(밑에코드)가 서버컴포넌트일 때
@@ -60,6 +67,11 @@ export default function Post() {
                                 <img src={target.Images[0]?.link} alt='' />
                             </div>
                         )} */}
+                        {target.Images && target.Images.length > 0 &&( 
+                            <Link href = {`/${target.User.id}/status/${target.postId}/photo/${target.Images[0].imageId}`} className = {style.postImageSection}>
+                                <img src = {target.Images[0]?.link} alt = ""/>
+                            </Link>
+                        ) }
                     </div>
                     {<ActionButtons />}
                 </div>
