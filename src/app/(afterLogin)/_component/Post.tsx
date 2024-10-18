@@ -5,6 +5,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 // dayjs는 플러그인 형식이어서 fromNow 쓰려면 필요한거 이렇게 import해서 써야함
 import 'dayjs/locale/ko';
 import ActionButtons from './ActionButtons';
+import PostImages from './PostImages';
 import PostArticle from './PostArticle';
 import {faker} from '@faker-js/faker'; //더미데이터 쉽게 넣어주는 라이브러리
 //중괄호 없이 import 하는 것은 모듈이나 라이브러리 전체를 가져오는 것이고, 중괄호 안에 특정 객체 또는 함수를 명시하여 import 하는 것은 해당 객체나 함수만을 가져오는 것
@@ -32,7 +33,12 @@ export default function Post({noImage}: Props) {
         Images: [] as any[],
     }
     if(Math.random() > 0.5 && !noImage){ // 반반 확률로 이미지를 랜덤으로 렌더링함(이때 반반 확률은 이미지가 계정에 이미지가 있을수도, 없을 수도 있는 것을 의미)
-        target.Images.push({ imageId: 1, link: faker.image.urlLoremFlickr() }) //urlLoremFlickr()은 매번 랜덤한 이미지 보여주는 기능을 함
+        target.Images.push(
+            { imageId: 1, link: faker.image.urlLoremFlickr()},
+            { imageId: 2, link: faker.image.urlLoremFlickr()},
+            { imageId: 3, link: faker.image.urlLoremFlickr()},
+            { imageId: 4, link: faker.image.urlLoremFlickr()},
+        ) //urlLoremFlickr()은 매번 랜덤한 이미지 보여주는 기능을 함
     }
     return (
         <PostArticle post={target}>
@@ -61,17 +67,8 @@ export default function Post({noImage}: Props) {
                         dayjs('@@').fromNow()는 @@날짜로부터 지금까지 몇분전인지 라는 뜻 몇분 이렇게 쓰고 싶으면 fromNow(), 몇분전 이렇게 쓰고 싶으면 fromNow(true)*/}
                     </div>
                     <div>{target.content}</div>
-                    <div className={style.postImagesection}>
-                        {/* {target.Images.length > 0 && (
-                            <div className={style.postImageSection}>
-                                <img src={target.Images[0]?.link} alt='' />
-                            </div>
-                        )} */}
-                        {target.Images && target.Images.length > 0 &&( 
-                            <Link href = {`/${target.User.id}/status/${target.postId}/photo/${target.Images[0].imageId}`} className = {style.postImageSection}>
-                                <img src = {target.Images[0]?.link} alt = ""/>
-                            </Link>
-                        ) }
+                    <div>
+                        <PostImages post={target}/>
                     </div>
                     {<ActionButtons />}
                 </div>

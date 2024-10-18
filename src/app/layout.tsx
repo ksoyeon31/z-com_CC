@@ -1,3 +1,4 @@
+import { MSWComponent } from "./_component/MSWComponent";
 import "./globals.css";
 import {Inter} from 'next/font/google';
 
@@ -11,6 +12,7 @@ export default function RootLayout({
   return (
     <html>
       <body className = {inter.className}>
+        <MSWComponent />
         {children}
       </body>
     </html>
