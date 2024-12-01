@@ -1,37 +1,34 @@
-"use client";
+'use client';
 
-import BackButton from '@/app/(afterLogin)/_component/BackButton';
 import style from './signup.module.css';
 import onSubmit from '../_lib/signup';
+import BackButton from '@/app/(beforeLogin)/_component/BackButton';
 import { useFormState, useFormStatus } from 'react-dom';
 
-
-function showMessage(message: string){
-  if(message === 'no_id'){
-    return '아이디가 없습니다';
+function showMessage(message: string | null | undefined) {
+  console.log('message', message);
+  if (message === 'no_id') {
+    return '아이디를 입력하세요.';
   }
-  if(message === 'no_nick'){
-    return '닉네임을 입력하세요';
+  if (message === 'no_name') {
+    return '닉네임을 입력하세요.';
   }
-  if(message === 'no_password'){
-    return '비밀번호를 입력하세요';
+  if (message === 'no_password') {
+    return '비밀번호를 입력하세요.';
   }
-  if(message === 'no_image'){
-    return '이미지를 업로드하세요';
+  if (message === 'no_image') {
+    return '이미지를 업로드하세요.';
   }
-  if(message === 'no_exists'){
-    return '이미 사용 중인 아이디입니다';
+  if (message === 'user_exists') {
+    return '이미 사용 중인 아이디입니다.';
   }
+  return '';
 }
 
-
-
 export default function SignupModal() {
-  
-  const [state, formAction] = useFormState(onSubmit,{message:null});
-  // onSubmit을 useFormState 괄호안에 넣은건 저기에 넣으면 useFormState에서 관리하는 함수가 되기 때문
-  const {pending} = useFormStatus();
-  //pending은 useFormStatus 훅에서 제공하는 기능 
+  const [state, formAction] = useFormState(onSubmit, { message: null }); // message:null로 초기값을 잡고 onSubmit을 클릭하면 위 코드대로 상태값에 따라 message내용이 달라짐
+  const { pending } = useFormStatus();
+  console.log('state', state);
 
   return (
     <>
@@ -41,38 +38,70 @@ export default function SignupModal() {
             <BackButton />
             <div>계정을 생성하세요.</div>
           </div>
-          <form action = {formAction}>
+          <form action={formAction}>
             <div className={style.modalBody}>
               <div className={style.inputDiv}>
-                <label className={style.inputLabel} htmlFor="id">아이디</label>
-                <input id="id" name = "id" className={style.input} type="text" placeholder=""
-                    required
+                <label className={style.inputLabel} htmlFor="id">
+                  아이디
+                </label>
+                <input
+                  id="id"
+                  name="id"
+                  className={style.input}
+                  type="text"
+                  placeholder=""
+                  required
                 />
               </div>
               <div className={style.inputDiv}>
-                <label className={style.inputLabel} htmlFor="name">닉네임</label>
-                <input id="name" name = "name" className={style.input} type="text" placeholder=""
-                    required
+                <label className={style.inputLabel} htmlFor="name">
+                  닉네임
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  className={style.input}
+                  type="text"
+                  placeholder=""
+                  required
                 />
               </div>
               <div className={style.inputDiv}>
-                <label className={style.inputLabel} htmlFor="password">비밀번호</label>
-                <input id="password" name = "password" className={style.input} type="password" placeholder=""
-                    required
+                <label className={style.inputLabel} htmlFor="password">
+                  비밀번호
+                </label>
+                <input
+                  id="password"
+                  name="password"
+                  className={style.input}
+                  type="password"
+                  placeholder=""
+                  required
                 />
               </div>
               <div className={style.inputDiv}>
-                <label className={style.inputLabel} htmlFor="image">프로필</label>
-                <input id="image" name = "image" required className={style.input} type="file" accept="image/*"
+                <label className={style.inputLabel} htmlFor="image">
+                  프로필
+                </label>
+                <input
+                  id="image"
+                  name="image"
+                  required
+                  className={style.input}
+                  type="file"
+                  accept="image/*"
                 />
               </div>
             </div>
             <div className={style.modalFooter}>
-              <button type = 'submit' className={style.actionButton} disabled = {pending}>가입하기</button>
-              <div className = {style.error}>{showMessage(state?.message)}</div>
+              <button type="submit" className={style.actionButton} disabled={pending}>
+                가입하기
+              </button>
+              <div className={style.error}>{showMessage(state?.message)}</div>
             </div>
           </form>
         </div>
       </div>
-    </>)
+    </>
+  );
 }

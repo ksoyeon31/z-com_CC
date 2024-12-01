@@ -1,44 +1,47 @@
-"use server";
-import { redirect } from "next/navigation";
+/* eslint-disable */
+'use server';
 
-
+import { redirect } from 'next/navigation';
+import { signIn } from '@/auth'; //서버이기 때문에 @/auth 경로사용
 
 export default async (prevState: any, formData: FormData) => {
+  if (!formData.get('id') || !(formData.get('id') as string)?.trim()) {
+    return { message: 'no_id' };
+  }
+  if (!formData.get('name') || !(formData.get('name') as string)?.trim()) {
+    return { message: 'no_name' };
+  }
+  if (!formData.get('password') || !(formData.get('password') as string)?.trim()) {
+    return { message: 'no_password' };
+  }
+  if (!formData.get('image')) {
+    return { message: 'no_image' };
+  }
+  let shouldRedirect = false;
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`, {
+      method: 'post',
+      body: formData,
+      credentials: 'include',
+    });
+    console.log(response.status);
+    if (response.status === 403) {
+      return { message: 'user_exists' };
+    }
+    console.log(await response.json());
+    shouldRedirect = true;
+    await signIn('credentials', {
+      //회원가입 성공하면 로그인까지 같이 할 수 있는 로직
+      username: formData.get('id'),
+      password: formData.get('password'),
+      redirect: false,
+    });
+  } catch (err) {
+    console.error(err);
+    return { message: null };
+  }
 
-    if (!formData.get('id')) {
-        return { message: 'no_id' };
-    }
-    if (!formData.get('name')) {
-        return { message: 'no_name' };
-    }
-    if (!formData.get('password')) {
-        return { message: 'no_password' };
-    }
-    if (!formData.get('image')) {
-        return { message: 'no_image' };
-    }
-
-    let shouldRedirect = false;
-    try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api.users`, {
-            method: 'post',
-            body: formData,
-            credentials: 'include',
-            // 위의 코드가 있어야 쿠키가 전달이 됨
-        })
-        console.log(response.status);
-        if (response.status === 403) {
-            return { message: 'user_exists' }
-        }
-        console.log(await response.json())
-        shouldRedirect = true;
-    } catch (err) {
-        console.error(err);
-        return;
-    }
-
-    if (shouldRedirect) {
-        redirect('/home'); // redirect문은 try/catch문 안에서 쓰면 x >> shouldRedirect 같은 변수 하나 만들어서 사용
-        return undefined;
-    }
-}
+  if (shouldRedirect) {
+    redirect('/home'); // try/catch문 안에서 X
+  }
+};
