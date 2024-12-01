@@ -1,5 +1,5 @@
-<서버 실행>
+<개발 서버 실행>
 - npm run dev
 
-<mock 실행>
+<mock API 실행>
 - npm run mock
